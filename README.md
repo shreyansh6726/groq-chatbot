@@ -61,24 +61,6 @@ Serverless API functions
 
 Automatic SSL and hosting
 
-```
-Groq-chatbot/
-│
-├── api/                # Backend serverless functions (Groq API calls)
-│   └── chat.js
-│
-├── src/                # React frontend source code
-│   └── App.jsx
-│
-├── public/             # Static assets
-│
-├── index.html          # Main HTML file for Vite
-├── package.json        # Project dependencies and scripts
-├── vite.config.js      # Vite configuration
-├── vercel.json         # Vercel function runtime config
-└── node_modules        # Installed packages
-
-```
 How It Works
 1. User sends a message
 
