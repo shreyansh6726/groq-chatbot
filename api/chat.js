@@ -1,9 +1,15 @@
 import Groq from "groq-sdk";
 
-// This pulls the key from your .env file
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const groq = new Groq({ 
+  apiKey: process.env.GROQ_API_KEY 
+});
 
 export default async function handler(req, res) {
+  // 1. Check if the key exists
+  if (!process.env.GROQ_API_KEY) {
+    return res.status(500).json({ error: "API Key is missing in environment variables" });
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -14,13 +20,13 @@ export default async function handler(req, res) {
     const completion = await groq.chat.completions.create({
       messages: messages,
       model: "llama-3.3-70b-versatile",
-      temperature: 0.7,
-      max_tokens: 1024,
     });
 
-    res.status(200).json({ text: completion.choices[0]?.message?.content });
+    const responseText = completion.choices[0]?.message?.content || "No response content";
+    res.status(200).json({ text: responseText });
+    
   } catch (error) {
-    console.error("Groq API Error:", error);
-    res.status(500).json({ error: "Failed to fetch response from Groq" });
+    console.error("Groq API Error Details:", error);
+    res.status(500).json({ error: error.message });
   }
 }
