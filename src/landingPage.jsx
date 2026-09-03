@@ -1,5 +1,7 @@
 import React from 'react';
 import { ArrowRight, Cpu, MessageSquare, Sparkles } from 'lucide-react';
+import BlurText from './BlurText';
+import GradientButton from './GradientButton';
 import './App.css';
 
 function LandingPage({ onGetStarted }) {
@@ -16,17 +18,29 @@ function LandingPage({ onGetStarted }) {
       </nav>
 
       <section className="landing-hero">
-        <div className="landing-badge">
+        <button className="landing-badge" type="button">
           <Sparkles size={15} /> Fast, intelligent conversations
-        </div>
-        <h1>Your ideas deserve a <span>smarter</span> conversation.</h1>
+        </button>
+        <BlurText
+          text="Your ideas deserve a smarter conversation."
+          delay={130}
+          animateBy="words"
+          direction="top"
+          className="landing-heading"
+          style={{
+            width: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            fontSize: 'clamp(1.4rem, 3.5vw, 2.7rem)'
+          }}
+        />
         <p>
           Meet Groq Elite, your professional AI assistant for clear answers,
           creative thinking, and getting more done.
         </p>
-        <button className="landing-cta" onClick={onGetStarted}>
+        <GradientButton onClick={onGetStarted} className="landing-cta">
           Get Started <ArrowRight size={20} />
-        </button>
+        </GradientButton>
 
         <div className="landing-preview">
           <div className="preview-header">
