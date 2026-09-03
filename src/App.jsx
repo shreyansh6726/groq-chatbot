@@ -201,7 +201,7 @@ function App() {
         <div className="sidebar-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Cpu size={24} color="#3b82f6" />
-            <h1 style={{ fontSize: '1.25rem', margin: 0 }}>Groq Elite</h1>
+            <h1 style={{ fontSize: '1.25rem', margin: 0 }}>Groq Chat</h1>
           </div>
         </div>
 
