@@ -32,6 +32,7 @@ function BlurText({
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
   const ref = useRef(null);
+  const completionCalled = useRef(false);
 
   useEffect(() => {
     if (!ref.current) return undefined;
@@ -49,6 +50,10 @@ function BlurText({
     observer.observe(ref.current);
     return () => observer.disconnect();
   }, [threshold, rootMargin]);
+
+  useEffect(() => {
+    completionCalled.current = false;
+  }, [text, animateBy, direction]);
 
   const defaultFrom = useMemo(
     () => (direction === 'top'
@@ -96,7 +101,14 @@ function BlurText({
             delay: (index * delay) / 1000,
             ease: easing
           }}
-          onAnimationComplete={index === elements.length - 1 ? onAnimationComplete : undefined}
+          onAnimationComplete={
+            index === elements.length - 1 && inView && !completionCalled.current
+              ? () => {
+                  completionCalled.current = true;
+                  onAnimationComplete?.();
+                }
+              : undefined
+          }
         >
           {segment}
           {animateBy === 'words' && index < elements.length - 1 ? '\u00A0' : null}

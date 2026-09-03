@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { ArrowRight, Cpu, MessageSquare, Sparkles } from 'lucide-react';
 import BlurText from './BlurText';
 import GradientButton from './GradientButton';
 import './App.css';
 
 function LandingPage({ onGetStarted }) {
+  const [showSubtitle, setShowSubtitle] = useState(false);
+
   return (
     <main className="landing-page">
       <nav className="landing-nav">
         <div className="landing-brand">
           <Cpu size={26} />
-          <span>Groq Elite</span>
+          <span>Groq Chat</span>
         </div>
         <button className="landing-nav-button" onClick={onGetStarted}>
           Get Started <ArrowRight size={17} />
@@ -34,11 +37,16 @@ function LandingPage({ onGetStarted }) {
             textAlign: 'center',
             fontSize: 'clamp(1.4rem, 3.5vw, 2.7rem)'
           }}
+          onAnimationComplete={() => setShowSubtitle(true)}
         />
-        <p>
+        <motion.p
+          initial={{ opacity: 0, y: 24 }}
+          animate={showSubtitle ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+        >
           Meet Groq Elite, your professional AI assistant for clear answers,
           creative thinking, and getting more done.
-        </p>
+        </motion.p>
         <GradientButton onClick={onGetStarted} className="landing-cta">
           Get Started <ArrowRight size={20} />
         </GradientButton>
