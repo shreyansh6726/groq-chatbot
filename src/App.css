@@ -32,6 +32,42 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Landing page */
+.landing-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 20%, #1e3a8a 0, #0f172a 42%, #020617 100%);
+  color: #f8fafc;
+  overflow: hidden;
+}
+
+.landing-nav {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 26px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.landing-brand { display: flex; align-items: center; gap: 10px; color: #93c5fd; font-weight: 700; font-size: 1.1rem; }
+.landing-nav-button, .landing-cta {
+  display: inline-flex; align-items: center; gap: 9px; border: 0; cursor: pointer;
+  font-weight: 600; transition: transform .2s ease, background .2s ease;
+}
+.landing-nav-button { background: rgba(255,255,255,.1); color: white; padding: 10px 16px; border-radius: 9px; }
+.landing-nav-button:hover, .landing-cta:hover { transform: translateY(-2px); }
+.landing-hero { max-width: 900px; margin: 70px auto 0; padding: 0 24px 80px; text-align: center; }
+.landing-badge { display: inline-flex; align-items: center; gap: 7px; padding: 8px 13px; border: 1px solid rgba(147,197,253,.3); border-radius: 999px; color: #bfdbfe; background: rgba(59,130,246,.12); font-size: .85rem; }
+.landing-hero h1 { margin: 22px auto 18px; max-width: 800px; font-size: clamp(2.8rem, 7vw, 5.4rem); line-height: 1.03; letter-spacing: -.05em; }
+.landing-hero h1 span { color: #60a5fa; }
+.landing-hero > p { max-width: 580px; margin: 0 auto 30px; color: #cbd5e1; font-size: 1.1rem; line-height: 1.7; }
+.landing-cta { padding: 14px 22px; border-radius: 10px; background: #2563eb; color: white; font-size: 1rem; box-shadow: 0 10px 30px rgba(37,99,235,.35); }
+.landing-preview { max-width: 620px; margin: 65px auto 0; padding: 18px; border: 1px solid rgba(148,163,184,.25); border-radius: 16px; background: rgba(15,23,42,.75); box-shadow: 0 25px 80px rgba(0,0,0,.3); text-align: left; }
+.preview-header { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 14px; color: #94a3b8; font-size: .85rem; border-bottom: 1px solid rgba(148,163,184,.18); }
+.preview-dots { display: flex; gap: 5px; }.preview-dots i { width: 7px; height: 7px; border-radius: 50%; background: #475569; }
+.preview-message { width: fit-content; max-width: 75%; margin-top: 16px; padding: 11px 14px; border-radius: 10px; font-size: .9rem; }
+.preview-bot { background: #334155; color: #e2e8f0; }.preview-user { margin-left: auto; background: #2563eb; color: white; }
+
 .app-wrapper {
   display: flex;
   height: 100vh;
