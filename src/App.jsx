@@ -173,7 +173,7 @@ function App() {
           ...messages,
           userMessage
         ],
-        model: "qwen/qwen3.6-27b",
+        model: "llama-3.3-70b-versatile",
       });
 
       const botContent = cleanAssistantResponse(

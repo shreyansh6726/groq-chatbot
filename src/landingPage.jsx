@@ -4,17 +4,21 @@ import { ArrowRight, Cpu, MessageSquare, Sparkles } from 'lucide-react';
 import BlurText from './BlurText';
 import GradientButton from './GradientButton';
 import PearlButton from './PearlButton';
+import LandingChatbot from './LandingChatbot';
 import './App.css';
 
 function LandingPage({ onGetStarted }) {
   const [showSubtitle, setShowSubtitle] = useState(false);
   const [showRest, setShowRest] = useState(false);
   const [exitStage, setExitStage] = useState('idle');
+  const [showChatbot, setShowChatbot] = useState(null);
 
   const handleGetStarted = () => {
     if (exitStage !== 'idle') return;
     setExitStage('rest');
   };
+
+  if (showChatbot) return <LandingChatbot initialRect={showChatbot} />;
 
   return (
     <main className="landing-page">
@@ -40,7 +44,7 @@ function LandingPage({ onGetStarted }) {
       <section className="landing-hero">
         <motion.div
           className="landing-heading-wrap"
-          animate={exitStage === 'heading'
+          animate={exitStage === 'heading' || exitStage === 'preview'
             ? { opacity: 0, y: -90, scale: 1.2 }
             : { opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: exitStage === 'heading' ? 0.9 : 0.2, ease: 'easeInOut' }}
@@ -66,7 +70,7 @@ function LandingPage({ onGetStarted }) {
         <motion.p
           className="landing-subtitle"
           initial={{ opacity: 0, y: 24 }}
-          animate={exitStage === 'heading'
+          animate={exitStage === 'heading' || exitStage === 'preview'
             ? { opacity: 0, y: -90, scale: 1.2 }
             : showSubtitle ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 24, scale: 1 }}
           transition={{ duration: exitStage === 'heading' ? 0.9 : 0.7, ease: 'easeInOut' }}
@@ -105,13 +109,21 @@ function LandingPage({ onGetStarted }) {
             overflow: exitStage === 'preview' ? 'hidden' : 'visible'
           }}
           animate={exitStage === 'preview'
-            ? { opacity: 1, width: 'calc(100vw - 48px)', height: 76, borderRadius: 10 }
+            ? { opacity: 1, width: 'min(900px, calc(100vw - 48px))', height: 100, borderRadius: 12 }
             : { opacity: showRest ? 1 : 0, width: 'min(620px, calc(100% - 48px))', height: 'auto', borderRadius: 16 }}
           transition={exitStage === 'preview'
             ? { duration: 0.8, ease: 'easeInOut' }
             : { duration: 0.7, ease: 'easeOut', delay: 0.24 }}
           onAnimationComplete={() => {
-            if (exitStage === 'preview') onGetStarted();
+            if (exitStage === 'preview') {
+              const rect = document.querySelector('.landing-preview')?.getBoundingClientRect();
+              setShowChatbot(rect ? {
+                left: rect.left,
+                top: rect.top,
+                width: rect.width,
+                height: rect.height
+              } : {});
+            }
           }}
         >
               <div className="preview-header">
