@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Groq from 'groq-sdk';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Send, Cpu, Mic, MicOff, Trash2 } from 'lucide-react';
+import { Cpu, Mic, MicOff, Trash2 } from 'lucide-react';
 import './App.css';
 
 const groq = new Groq({
@@ -140,7 +140,7 @@ function LandingChatbot({ initialRect }) {
             {voices.length === 0 && <option value="">Voice selection</option>}
             {voices.map((voice) => <option key={voice.name} value={voice.name}>{voice.name}</option>)}
           </select>
-          <button type="button" onClick={toggleListening} title={recognition ? 'Voice input' : 'Voice input is not supported'}>
+          <button className="mic-button" type="button" onClick={toggleListening} title={recognition ? 'Voice input' : 'Voice input is not supported'}>
             {isListening ? <MicOff size={18} /> : <Mic size={18} />}
           </button>
           <button type="button" onClick={clearChat} title="Clear chat"><Trash2 size={18} /></button>
@@ -154,15 +154,23 @@ function LandingChatbot({ initialRect }) {
         ))}
         {isLoading && <div className="landing-chat-message assistant">Thinking...</div>}
       </section>
-      <form ref={inputRef} className="landing-chat-input" onSubmit={handleSend} style={inputMotionStyle}>
-        <input
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          placeholder="Ask Groq anything..."
-          disabled={isLoading}
-        />
-        <button type="submit" disabled={isLoading || !input.trim()} aria-label="Send message">
-          <Send size={19} />
+      <form ref={inputRef} className="landing-chat-input chat-input-frame" onSubmit={handleSend} style={inputMotionStyle}>
+        <div className="chat-input-glow" />
+        <div className="chat-input-white" />
+        <div className="chat-input-border" />
+        <div className="chat-input-dark-border" />
+        <div className="chat-input-main">
+          <div className="chat-input-pink-mask" />
+          <input
+            className="uiverse-input"
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            placeholder="Ask Groq anything..."
+            disabled={isLoading}
+          />
+        </div>
+        <button className="landing-send-button" type="submit" disabled={isLoading || !input.trim()} aria-label="Send message">
+          <span>send</span>
         </button>
       </form>
     </main>

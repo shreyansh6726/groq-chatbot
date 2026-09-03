@@ -5,7 +5,6 @@ import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {
-  Send,
   Mic,
   MicOff,
   Volume2,
@@ -292,24 +291,32 @@ function App() {
         </div>
 
         <div className="input-section">
-          <form className="input-container" onSubmit={handleSend}>
+          <form className="input-container chat-input-frame" onSubmit={handleSend}>
+            <div className="chat-input-glow" />
+            <div className="chat-input-white" />
+            <div className="chat-input-border" />
+            <div className="chat-input-dark-border" />
             <button
               type="button"
-              className={`icon-button ${isListening ? 'active' : ''}`}
+              className={`icon-button mic-button ${isListening ? 'active' : ''}`}
               onClick={toggleListening}
               title="Voice Input"
             >
               {isListening ? <MicOff size={20} /> : <Mic size={20} />}
             </button>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type or speak your request..."
-              disabled={isLoading}
-            />
+            <div className="chat-input-main">
+              <div className="chat-input-pink-mask" />
+              <input
+                className="uiverse-input"
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type or speak your request..."
+                disabled={isLoading}
+              />
+            </div>
             <button type="submit" className="icon-button send-button" disabled={isLoading || !input.trim()}>
-              <Send size={20} />
+              <span>send</span>
             </button>
           </form>
         </div>
