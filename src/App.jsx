@@ -18,6 +18,7 @@ import {
   Moon
 } from 'lucide-react';
 import './App.css';
+import LandingPage from './landingPage';
 
 const groq = new Groq({
   apiKey: process.env.REACT_APP_GROQ_API_KEY,
@@ -25,7 +26,7 @@ const groq = new Groq({
 });
 
 // Custom Code Block with Copy Button
-const CodeBlock = ({ node, inline, className, children, ...props }) => {
+const CodeBlock = ({ node, inline, className, children, ...props }) => {        
   const [copied, setCopied] = useState(false);
   const match = /language-(\w+)/.exec(className || '');
   const content = String(children).replace(/\n$/, '');
@@ -57,7 +58,15 @@ const CodeBlock = ({ node, inline, className, children, ...props }) => {
   return <code className={className} {...props}>{children}</code>;
 };
 
+// Some models wrap their answer in private reasoning tags. Never render those tags.
+const cleanAssistantResponse = (response) =>
+  String(response)
+    .replace(/<think>[\s\S]*?<\/think>/gi, '')
+    .replace(/^\s*<think>[\s\S]*$/i, '')
+    .trim();
+
 function App() {
+  const [showLanding, setShowLanding] = useState(true);
   const [messages, setMessages] = useState([
     { role: 'assistant', content: 'Hello! I am your professional AI assistant. How can I assist you today?' }
   ]);
@@ -119,6 +128,10 @@ function App() {
     }
   }, [messages, isLoading]);
 
+  if (showLanding) {
+    return <LandingPage onGetStarted={() => setShowLanding(false)} />;
+  }
+
   const toggleListening = () => {
     if (isListening) {
       recognitionRef.current?.stop();
@@ -163,7 +176,10 @@ function App() {
         model: "llama-3.3-70b-versatile",
       });
 
-      const botContent = chatCompletion.choices[0]?.message?.content || "I apologize, but I encountered an error processing your request.";
+      const botContent = cleanAssistantResponse(
+        chatCompletion.choices[0]?.message?.content ||
+          "I apologize, but I encountered an error processing your request."
+      );
       const botMessage = { role: 'assistant', content: botContent };
 
       setMessages(prev => [...prev, botMessage]);
@@ -185,7 +201,7 @@ function App() {
         <div className="sidebar-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Cpu size={24} color="#3b82f6" />
-            <h1 style={{ fontSize: '1.25rem', margin: 0 }}>Groq Elite</h1>
+            <h1 style={{ fontSize: '1.25rem', margin: 0 }}>Groq Chat</h1>
           </div>
         </div>
 
