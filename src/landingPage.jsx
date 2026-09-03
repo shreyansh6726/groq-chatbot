@@ -19,7 +19,8 @@ function LandingPage({ onGetStarted }) {
 
       <section className="landing-hero">
         <button className="landing-badge" type="button">
-          <Sparkles size={15} /> Fast, intelligent conversations
+          <Sparkles size={15} />
+          <span>Fast, intelligent <span className="conversation-word">conversations</span></span>
         </button>
         <BlurText
           text="Your ideas deserve a smarter conversation."
