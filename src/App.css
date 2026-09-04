@@ -211,8 +211,9 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 600px;
-  height: 600px;
+  /* Large enough that the rotated square spans the full 900px input width. */
+  width: 1400px;
+  height: 1400px;
   transform: translate(-50%, -50%) rotate(75deg);
   background: conic-gradient(transparent, #6CE0E6 5%, transparent 14%, transparent 50%, #A570E3 60%, transparent 66%);
   transition: transform 2s ease;
@@ -221,7 +222,7 @@ body {
 .chatbot-input-poda > .chatbot-input-white::before { filter: brightness(1.4); }
 .chatbot-input-poda > .chatbot-input-border::before { background: conic-gradient(#ffffff, #76BFE9 5%, #ffffff 14%, #ffffff 50%, #9D89E5 60%, #ffffff 64%); filter: brightness(1.3); }
 .chatbot-input-poda > .chatbot-input-dark-border::before { background: conic-gradient(transparent, #8B9EE5, transparent 10%, transparent 50%, #A570E3, transparent 60%); }
-.chatbot-input-poda > .chatbot-input-glow::before { width: 999px; height: 999px; background: conic-gradient(#000, #76BFE9 5%, #000 38%, #000 50%, #9D89E5 60%, #000 87%); }
+.chatbot-input-poda > .chatbot-input-glow::before { width: 1600px; height: 1600px; background: conic-gradient(#000, #76BFE9 5%, #000 38%, #000 50%, #9D89E5 60%, #000 87%); }
 
 .chatbot-input-poda:hover > .chatbot-input-dark-border::before { transform: translate(-50%, -50%) rotate(262deg); }
 .chatbot-input-poda:hover > .chatbot-input-glow::before { transform: translate(-50%, -50%) rotate(240deg); }
