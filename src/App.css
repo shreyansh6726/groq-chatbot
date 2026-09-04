@@ -260,8 +260,9 @@ body {
 }
 
 .chatbot-input-main input::placeholder { color: #0f172a; opacity: 1; }
-.chatbot-input-mask { position: absolute; left: 52px; top: 13px; width: 100px; height: 20px; background: linear-gradient(90deg, transparent, #ffffff); pointer-events: none; }
-.chatbot-input-pink-mask { position: absolute; left: 5px; top: 10px; width: 30px; height: 20px; background: #A570E3; filter: blur(20px); opacity: .8; pointer-events: none; transition: opacity 2s; }
+.chatbot-input-placeholder { position: absolute; left: 52px; top: 50%; z-index: 1; transform: translateY(-50%); pointer-events: none; font-size: 1rem; line-height: 1; }
+.chatbot-input-mask { position: absolute; left: 52px; top: 13px; z-index: 0; width: 100px; height: 20px; background: linear-gradient(90deg, transparent, #ffffff); pointer-events: none; }
+.chatbot-input-pink-mask { position: absolute; left: 5px; top: 10px; z-index: 0; width: 30px; height: 20px; background: #A570E3; filter: blur(20px); opacity: .8; pointer-events: none; transition: opacity 2s; }
 .chatbot-input-poda:hover .chatbot-input-pink-mask,
 .chatbot-input-main:focus-within .chatbot-input-pink-mask { opacity: 0; }
 .chatbot-search-icon { position: absolute; left: 18px; top: 11px; width: 24px; height: 24px; color: #76BFE9; pointer-events: none; }

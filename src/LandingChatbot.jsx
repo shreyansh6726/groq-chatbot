@@ -3,6 +3,7 @@ import Groq from 'groq-sdk';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Cpu, Mic, MicOff, Trash2 } from 'lucide-react';
+import ShinyText from './ShinyText';
 import './App.css';
 
 const groq = new Groq({
@@ -165,9 +166,20 @@ function LandingChatbot({ initialRect }) {
           <input
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask anything to Groq"
+            placeholder=""
             disabled={isLoading}
           />
+          {!input && !isLoading && (
+            <ShinyText
+              text="Ask anything to Groq"
+              className="chatbot-input-placeholder"
+              speed={2}
+              color="#76BFE9"
+              shineColor="#ffffff"
+              spread={120}
+              direction="left"
+            />
+          )}
           <div className="chatbot-input-mask" />
           <div className="chatbot-input-pink-mask" />
           <div className="chatbot-search-icon" aria-hidden="true">
