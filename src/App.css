@@ -177,6 +177,8 @@ body {
 .landing-chat-message p { margin: 0; }.landing-chat-message.user { margin-left: auto; background: #4f46e5; color: white; }.landing-chat-message.assistant { background: #334155; color: #f8fafc; }
 .landing-chat-input { box-sizing: border-box; position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); width: calc(100vw - 48px); max-width: 900px; height: 100px; margin: 0; padding: 8px 10px 8px 18px; display: flex; align-items: flex-end; gap: 10px; border: 1px solid rgba(148,163,184,.35); border-radius: 12px; background: rgba(15,23,42,.85); box-shadow: 0 8px 24px rgba(0,0,0,.2); animation: chat-option-fade .8s .3s ease-out both; z-index: 5; }
 .landing-chat-input input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #f8fafc; font: inherit; }.landing-chat-input input::placeholder { color: #94a3b8; }.landing-chat-input button { display: grid; place-items: center; border: 0; border-radius: 9px; padding: 10px 14px; background: #4f46e5; color: white; cursor: pointer; }.landing-chat-input button:disabled { cursor: not-allowed; opacity: .5; }
+.landing-chat-input input { background: #ffffff; color: #0f172a; border-radius: 8px; padding: 12px 14px; }
+.landing-chat-input input::placeholder { color: #64748b; }
 @keyframes chat-option-fade { from { opacity: 0; } to { opacity: 1; } }
 .landing-cta { margin: 0 auto; padding: 14px 22px; border-radius: 10px; background: #2563eb; color: white; font-size: 1rem; box-shadow: 0 10px 30px rgba(37,99,235,.35); }
 .gradient-button {
@@ -395,7 +397,13 @@ body {
 
 .input-container input {
   min-width: 0;
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 8px;
+  padding: 12px 14px;
 }
+
+.input-container input::placeholder { color: #64748b; }
 
 /* Uiverse-inspired animated input field */
 .chat-input-shell {
@@ -413,8 +421,17 @@ body {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  border: 0;
-  background: #010201;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(135deg, #6CE0E6 0%, #76BFE9 25%, #8B9EE5 50%, #9D89E5 75%, #A570E3 100%) border-box;
+  box-shadow: 0 0 18px rgba(139, 158, 229, 0.28);
+  transition: box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.chat-input-frame:hover,
+.chat-input-frame:focus-within {
+  box-shadow: 0 0 28px rgba(118, 191, 233, 0.5);
 }
 
 .landing-chat-input.chat-input-frame {
@@ -469,12 +486,12 @@ body {
   border-radius: 10px;
   outline: none;
   background: transparent;
-  color: #ffffff;
+  color: #0f172a;
   font: inherit;
   font-size: 1rem;
 }
 
-.uiverse-input::placeholder { color: #c0b9c0; }
+.uiverse-input::placeholder { color: #64748b; }
 
 .chat-input-pink-mask {
   position: absolute;
@@ -483,7 +500,7 @@ body {
   left: 5px;
   width: 30px;
   height: 20px;
-  background: #cf30aa;
+  background: #A570E3;
   filter: blur(20px);
   opacity: 0.8;
   transition: opacity 2s;
@@ -508,13 +525,13 @@ body {
   width: 600px;
   height: 600px;
   transform: translate(-50%, -50%) rotate(70deg);
-  background: conic-gradient(transparent, #a099d8, transparent 8%, transparent 50%, #dfa2da, transparent 58%);
+  background: conic-gradient(transparent 0%, #6CE0E6 5%, transparent 12%, transparent 50%, #A570E3 58%, transparent 66%);
   transition: transform 2s;
 }
 
-.chat-input-border::before { background: conic-gradient(#1c191c, #402fb5 5%, #1c191c 14%, #1c191c 50%, #cf30aa 60%, #1c191c 64%); }
-.chat-input-dark-border::before { background: conic-gradient(transparent, #18116a, transparent 10%, transparent 50%, #6e1b60, transparent 60%); }
-.chat-input-glow::before { width: 999px; height: 999px; background: conic-gradient(#000, #402fb5 5%, #000 38%, #000 50%, #cf30aa 60%, #000 87%); }
+.chat-input-border::before { background: conic-gradient(#ffffff, #76BFE9 5%, #ffffff 14%, #ffffff 50%, #9D89E5 60%, #ffffff 64%); }
+.chat-input-dark-border::before { background: conic-gradient(transparent, #8B9EE5, transparent 10%, transparent 50%, #A570E3, transparent 60%); }
+.chat-input-glow::before { width: 999px; height: 999px; background: conic-gradient(#ffffff, #76BFE9 5%, #ffffff 38%, #ffffff 50%, #9D89E5 60%, #ffffff 87%); }
 
 .chat-input-frame:hover .chat-input-white::before { transform: translate(-50%, -50%) rotate(263deg); }
 .chat-input-frame:hover .chat-input-border::before { transform: translate(-50%, -50%) rotate(250deg); }

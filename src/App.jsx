@@ -291,11 +291,7 @@ function App() {
         </div>
 
         <div className="input-section">
-          <form className="input-container chat-input-frame" onSubmit={handleSend}>
-            <div className="chat-input-glow" />
-            <div className="chat-input-white" />
-            <div className="chat-input-border" />
-            <div className="chat-input-dark-border" />
+          <form className="input-container" onSubmit={handleSend}>
             <button
               type="button"
               className={`icon-button mic-button ${isListening ? 'active' : ''}`}
@@ -304,17 +300,13 @@ function App() {
             >
               {isListening ? <MicOff size={20} /> : <Mic size={20} />}
             </button>
-            <div className="chat-input-main">
-              <div className="chat-input-pink-mask" />
-              <input
-                className="uiverse-input"
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Type or speak your request..."
-                disabled={isLoading}
-              />
-            </div>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type or speak your request..."
+              disabled={isLoading}
+            />
             <button type="submit" className="icon-button send-button" disabled={isLoading || !input.trim()}>
               <span>send</span>
             </button>

@@ -154,21 +154,13 @@ function LandingChatbot({ initialRect }) {
         ))}
         {isLoading && <div className="landing-chat-message assistant">Thinking...</div>}
       </section>
-      <form ref={inputRef} className="landing-chat-input chat-input-frame" onSubmit={handleSend} style={inputMotionStyle}>
-        <div className="chat-input-glow" />
-        <div className="chat-input-white" />
-        <div className="chat-input-border" />
-        <div className="chat-input-dark-border" />
-        <div className="chat-input-main">
-          <div className="chat-input-pink-mask" />
-          <input
-            className="uiverse-input"
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask Groq anything..."
-            disabled={isLoading}
-          />
-        </div>
+      <form ref={inputRef} className="landing-chat-input" onSubmit={handleSend} style={inputMotionStyle}>
+        <input
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+          placeholder="Ask Groq anything..."
+          disabled={isLoading}
+        />
         <button className="landing-send-button" type="submit" disabled={isLoading || !input.trim()} aria-label="Send message">
           <span>send</span>
         </button>
