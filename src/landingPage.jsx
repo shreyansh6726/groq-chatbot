@@ -109,7 +109,7 @@ function LandingPage({ onGetStarted }) {
             overflow: exitStage === 'preview' ? 'hidden' : 'visible'
           }}
           animate={exitStage === 'preview'
-            ? { opacity: 1, width: 'min(900px, calc(100vw - 48px))', height: 100, borderRadius: 12 }
+            ? { opacity: 1, width: 'min(900px, calc(100vw - 48px))', height: 64, borderRadius: 12 }
             : { opacity: showRest ? 1 : 0, width: 'min(620px, calc(100% - 48px))', height: 'auto', borderRadius: 16 }}
           transition={exitStage === 'preview'
             ? { duration: 0.8, ease: 'easeInOut' }
