@@ -214,7 +214,7 @@ function LandingChatbot({ initialRect }) {
               className="chatbot-input-placeholder"
               speed={2}
               color="#76BFE9"
-              shineColor="#ffffff"
+              shineColor="#8B9EE5"
               spread={120}
               direction="left"
             />

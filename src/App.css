@@ -178,8 +178,8 @@ body {
 .trash-button:hover { background: rgb(255, 69, 69) !important; gap: 0; }
 .trash-button:hover .trash-top { transform: rotate(160deg); transition-duration: .5s; }
 .voice-picker { position: relative; }
-.voice-picker-trigger { max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.voice-picker-menu { position: absolute; top: calc(100% + 8px); right: 0; z-index: 20; width: min(300px, calc(100vw - 48px)); padding: 6px; border: 1px solid rgba(118, 191, 233, .45); border-radius: 12px; background: #1e1b4b; box-shadow: 0 16px 36px rgba(15, 23, 42, .35); }
+.voice-picker-trigger { max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; background: #1e1b4b !important; color: #f8fafc !important; position: relative; z-index: 30; }
+.voice-picker-menu { position: absolute; top: calc(100% + 8px); right: 0; z-index: 50; width: min(300px, calc(100vw - 48px)); padding: 6px; border: 1px solid rgba(118, 191, 233, .45); border-radius: 12px; background: #1e1b4b; opacity: 1; box-shadow: 0 16px 36px rgba(15, 23, 42, .35); }
 .voice-picker-empty { padding: 14px; color: #cbd5e1; font-size: .85rem; text-align: center; }
 .landing-chatbot-messages { max-width: 900px; min-height: calc(100vh - 180px); margin: 0 auto; padding: 28px 0; box-sizing: border-box; background: transparent; overflow-y: auto; animation: chat-option-fade .8s .15s ease-out both; }
 .landing-chatbot-messages.empty { min-height: 0; height: 0; padding: 0; }
@@ -807,7 +807,8 @@ body {
   overflow: hidden;
   border: 1px solid #6CE0E6;
   border-radius: 7px;
-  background: transparent;
+  z-index: 30;
+  background: #1e1b4b !important;
   color: #ffffff;
   box-shadow: 0 0 0 0 transparent;
   transition: all 0.2s ease-in;
