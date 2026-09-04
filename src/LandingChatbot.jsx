@@ -154,16 +154,32 @@ function LandingChatbot({ initialRect }) {
         ))}
         {isLoading && <div className="landing-chat-message assistant">Thinking...</div>}
       </section>
-      <form ref={inputRef} className="landing-chat-input" onSubmit={handleSend} style={inputMotionStyle}>
-        <input
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          placeholder="Ask Groq anything..."
-          disabled={isLoading}
-        />
-        <button className="landing-send-button" type="submit" disabled={isLoading || !input.trim()} aria-label="Send message">
-          <span>send</span>
-        </button>
+      <form ref={inputRef} className="landing-chat-input chatbot-input-poda" onSubmit={handleSend} style={inputMotionStyle}>
+        <div className="chatbot-input-glow" />
+        <div className="chatbot-input-dark-border" />
+        <div className="chatbot-input-dark-border" />
+        <div className="chatbot-input-dark-border" />
+        <div className="chatbot-input-white" />
+        <div className="chatbot-input-border" />
+        <div className="chatbot-input-main">
+          <input
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            placeholder="Ask Groq anything..."
+            disabled={isLoading}
+          />
+          <div className="chatbot-input-mask" />
+          <div className="chatbot-input-pink-mask" />
+          <div className="chatbot-search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7.5" stroke="currentColor" strokeWidth="2" />
+              <path d="m16.5 16.5 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </div>
+          <button className="landing-send-button" type="submit" disabled={isLoading || !input.trim()} aria-label="Send message">
+            <span>send</span>
+          </button>
+        </div>
       </form>
     </main>
   );
