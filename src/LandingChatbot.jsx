@@ -165,7 +165,7 @@ function LandingChatbot({ initialRect }) {
           <input
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask Groq anything..."
+            placeholder="Ask anything to Groq"
             disabled={isLoading}
           />
           <div className="chatbot-input-mask" />
