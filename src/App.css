@@ -171,6 +171,12 @@ body {
 .landing-chat-options { display: flex; align-items: center; gap: 10px; }
 .landing-chat-options select, .landing-chat-options button { border: 1px solid rgba(79,70,229,.25); border-radius: 9px; background: rgba(255,255,255,.7); color: #312e81; padding: 9px 11px; cursor: pointer; }
 .landing-chat-options button { display: grid; place-items: center; }
+.trash-button { width: 38px; height: 38px; padding: 0 !important; border: none !important; border-radius: 50% !important; background: rgb(20, 20, 20) !important; display: flex !important; flex-direction: column; align-items: center; justify-content: center; gap: 2px; box-shadow: 0 0 20px rgba(0, 0, 0, .16); overflow: hidden; transition: background-color .3s, gap .3s; }
+.trash-svg { width: 12px; transition: transform .3s; }
+.trash-svg path { fill: #ffffff; }
+.trash-top { transform-origin: bottom right; }
+.trash-button:hover { background: rgb(255, 69, 69) !important; gap: 0; }
+.trash-button:hover .trash-top { transform: rotate(160deg); transition-duration: .5s; }
 .voice-picker { position: relative; }
 .voice-picker-trigger { max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .voice-picker-menu { position: absolute; top: calc(100% + 8px); right: 0; z-index: 20; width: min(300px, calc(100vw - 48px)); padding: 6px; border: 1px solid rgba(118, 191, 233, .45); border-radius: 12px; background: #1e1b4b; box-shadow: 0 16px 36px rgba(15, 23, 42, .35); }
