@@ -5,7 +5,6 @@ import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {
-  Send,
   Mic,
   MicOff,
   Volume2,
@@ -295,7 +294,7 @@ function App() {
           <form className="input-container" onSubmit={handleSend}>
             <button
               type="button"
-              className={`icon-button ${isListening ? 'active' : ''}`}
+              className={`icon-button mic-button ${isListening ? 'active' : ''}`}
               onClick={toggleListening}
               title="Voice Input"
             >
@@ -309,7 +308,7 @@ function App() {
               disabled={isLoading}
             />
             <button type="submit" className="icon-button send-button" disabled={isLoading || !input.trim()}>
-              <Send size={20} />
+              <span>send</span>
             </button>
           </form>
         </div>
