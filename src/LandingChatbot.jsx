@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Cpu, Mic, MicOff, Trash2 } from 'lucide-react';
 import ShinyText from './ShinyText';
+import AnimatedList from './AnimatedList';
 import './App.css';
 
 const groq = new Groq({
@@ -21,6 +22,7 @@ function LandingChatbot({ initialRect }) {
   const [isLoading, setIsLoading] = useState(false);
   const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState('');
+  const [isVoiceMenuOpen, setIsVoiceMenuOpen] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null);
   const inputRef = useRef(null);
@@ -137,10 +139,34 @@ function LandingChatbot({ initialRect }) {
       <header className="landing-chatbot-header">
         <div className="landing-brand"><Cpu size={24} /><span>Groq Chat</span></div>
         <div className="landing-chat-options">
-          <select value={selectedVoice} onChange={(event) => setSelectedVoice(event.target.value)} aria-label="Select voice">
-            {voices.length === 0 && <option value="">Voice selection</option>}
-            {voices.map((voice) => <option key={voice.name} value={voice.name}>{voice.name}</option>)}
-          </select>
+          <div className="voice-picker">
+            <button
+              className="voice-picker-trigger"
+              type="button"
+              onClick={() => setIsVoiceMenuOpen((open) => !open)}
+              aria-expanded={isVoiceMenuOpen}
+              aria-haspopup="listbox"
+            >
+              {selectedVoice || 'Voice selection'}
+            </button>
+            {isVoiceMenuOpen && (
+              <div className="voice-picker-menu" role="listbox" aria-label="Select voice">
+                {voices.length > 0 ? (
+                  <AnimatedList
+                    items={voices.map((voice) => voice.name)}
+                    initialSelectedIndex={Math.max(voices.findIndex((voice) => voice.name === selectedVoice), -1)}
+                    onItemSelect={(voice) => {
+                      setSelectedVoice(voice);
+                      setIsVoiceMenuOpen(false);
+                    }}
+                    showGradients
+                    enableArrowNavigation
+                    displayScrollbar={voices.length > 4}
+                  />
+                ) : <div className="voice-picker-empty">No voices available</div>}
+              </div>
+            )}
+          </div>
           <button className="mic-button" type="button" onClick={toggleListening} title={recognition ? 'Voice input' : 'Voice input is not supported'}>
             {isListening ? <MicOff size={18} /> : <Mic size={18} />}
           </button>

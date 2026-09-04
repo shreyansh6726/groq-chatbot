@@ -171,6 +171,10 @@ body {
 .landing-chat-options { display: flex; align-items: center; gap: 10px; }
 .landing-chat-options select, .landing-chat-options button { border: 1px solid rgba(79,70,229,.25); border-radius: 9px; background: rgba(255,255,255,.7); color: #312e81; padding: 9px 11px; cursor: pointer; }
 .landing-chat-options button { display: grid; place-items: center; }
+.voice-picker { position: relative; }
+.voice-picker-trigger { max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.voice-picker-menu { position: absolute; top: calc(100% + 8px); right: 0; z-index: 20; width: min(300px, calc(100vw - 48px)); padding: 6px; border: 1px solid rgba(118, 191, 233, .45); border-radius: 12px; background: #1e1b4b; box-shadow: 0 16px 36px rgba(15, 23, 42, .35); }
+.voice-picker-empty { padding: 14px; color: #cbd5e1; font-size: .85rem; text-align: center; }
 .landing-chatbot-messages { max-width: 900px; min-height: calc(100vh - 180px); margin: 0 auto; padding: 28px 0; box-sizing: border-box; background: transparent; overflow-y: auto; animation: chat-option-fade .8s .15s ease-out both; }
 .landing-chatbot-messages.empty { min-height: 0; height: 0; padding: 0; }
 .landing-chat-message { width: fit-content; max-width: 78%; margin: 0 0 18px; padding: 13px 17px; border-radius: 12px; line-height: 1.6; }
