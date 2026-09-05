@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Groq from 'groq-sdk';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Cpu, Mic, MicOff } from 'lucide-react';
+import { Cpu, Mic, MicOff, Volume2 } from 'lucide-react';
 import ShinyText from './ShinyText';
 import AnimatedList from './AnimatedList';
 import { getGroqChatModel } from './groqModel';
@@ -126,7 +126,29 @@ function LandingChatbot({ initialRect }) {
     }
   };
 
-  const clearChat = () => setMessages([]);
+  const speakResponse = (content) => {
+    if (!window.speechSynthesis || !content) return;
+
+    const selectedVoiceObject = voices.find((voice) => voice.name === selectedVoice);
+    const utterance = new SpeechSynthesisUtterance(
+      content
+        .replace(/```[\s\S]*?```/g, ' ')
+        .replace(/[#*_>`~-]/g, '')
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+        .replace(/\s+/g, ' ')
+        .trim()
+    );
+    if (selectedVoiceObject) utterance.voice = selectedVoiceObject;
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const clearChat = () => {
+    window.speechSynthesis.cancel();
+    setMessages([]);
+  };
 
   const scrollMessagesToLatest = () => {
     if (messagesRef.current) {
@@ -169,9 +191,10 @@ function LandingChatbot({ initialRect }) {
       setMessages((current) => [...current, { role: 'assistant', content: answer }]);
     } catch (error) {
       console.error(error);
+      const fallback = 'I could not connect to Groq. Please check your API key and try again.';
       setMessages((current) => [...current, {
         role: 'assistant',
-        content: 'I could not connect to Groq. Please check your API key and try again.'
+        content: fallback
       }]);
     } finally {
       setIsLoading(false);
@@ -234,7 +257,20 @@ function LandingChatbot({ initialRect }) {
         {messages.map((message, index) => (
           <div className={`landing-chat-message ${message.role}`} key={`${message.role}-${index}`}>
             {message.role === 'assistant' ? (
-              <TypewriterResponse content={message.content} />
+              <>
+                <div className="assistant-response-content">
+                  <TypewriterResponse content={message.content} />
+                </div>
+                <button
+                  className="response-speak-button"
+                  type="button"
+                  onClick={() => speakResponse(message.content)}
+                  aria-label="Speak this response"
+                  title="Speak response"
+                >
+                  <Volume2 size={15} />
+                </button>
+              </>
             ) : (
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
             )}
