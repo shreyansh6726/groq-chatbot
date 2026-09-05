@@ -213,8 +213,8 @@ function LandingChatbot({ initialRect }) {
               text="Ask anything to Groq"
               className="chatbot-input-placeholder"
               speed={2}
-              color="#76BFE9"
-              shineColor="#8B9EE5"
+              color="#4f46e5"
+              shineColor="#6CE0E6"
               spread={120}
               direction="left"
             />
