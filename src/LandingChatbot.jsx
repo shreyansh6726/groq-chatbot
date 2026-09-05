@@ -2,9 +2,10 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Groq from 'groq-sdk';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Cpu, Mic, MicOff } from 'lucide-react';
+import { Cpu, Mic, MicOff, Volume2 } from 'lucide-react';
 import ShinyText from './ShinyText';
 import AnimatedList from './AnimatedList';
+import { getGroqChatModel } from './groqModel';
 import './App.css';
 
 const groq = new Groq({
@@ -16,6 +17,30 @@ const cleanResponse = (value) => String(value || '')
   .replace(/<think>[\s\S]*?<\/think>/gi, '')
   .trim();
 
+function TypewriterResponse({ content }) {
+  const [visibleContent, setVisibleContent] = useState('');
+
+  useEffect(() => {
+    let characterIndex = 0;
+    setVisibleContent('');
+
+    const timer = window.setInterval(() => {
+      characterIndex += 1;
+      setVisibleContent(content.slice(0, characterIndex));
+
+      if (characterIndex >= content.length) window.clearInterval(timer);
+    }, 18);
+
+    return () => window.clearInterval(timer);
+  }, [content]);
+
+  return (
+    <div className="typewriter-response">
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{visibleContent}</ReactMarkdown>
+    </div>
+  );
+}
+
 function LandingChatbot({ initialRect }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -26,6 +51,7 @@ function LandingChatbot({ initialRect }) {
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null);
   const inputRef = useRef(null);
+  const messagesRef = useRef(null);
   const [isReady, setIsReady] = useState(!initialRect);
   const [inputMotionStyle, setInputMotionStyle] = useState({});
 
@@ -100,7 +126,44 @@ function LandingChatbot({ initialRect }) {
     }
   };
 
-  const clearChat = () => setMessages([]);
+  const speakResponse = (content) => {
+    if (!window.speechSynthesis || !content) return;
+
+    const selectedVoiceObject = voices.find((voice) => voice.name === selectedVoice);
+    const utterance = new SpeechSynthesisUtterance(
+      content
+        .replace(/```[\s\S]*?```/g, ' ')
+        .replace(/[#*_>`~-]/g, '')
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+        .replace(/\s+/g, ' ')
+        .trim()
+    );
+    if (selectedVoiceObject) utterance.voice = selectedVoiceObject;
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const clearChat = () => {
+    window.speechSynthesis.cancel();
+    setMessages([]);
+  };
+
+  const scrollMessagesToLatest = () => {
+    if (messagesRef.current) {
+      messagesRef.current.scrollTo({
+        top: messagesRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const waitForMessageRender = () => new Promise((resolve) => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(resolve);
+    });
+  });
 
   const handleSend = async (event) => {
     event.preventDefault();
@@ -112,8 +175,11 @@ function LandingChatbot({ initialRect }) {
     setIsLoading(true);
 
     try {
+      await waitForMessageRender();
+      scrollMessagesToLatest();
+      const model = await getGroqChatModel(groq);
       const completion = await groq.chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
+        model,
         messages: [
           { role: 'system', content: 'You are a professional, helpful AI assistant. Respond clearly using markdown.' },
           ...messages,
@@ -125,9 +191,10 @@ function LandingChatbot({ initialRect }) {
       setMessages((current) => [...current, { role: 'assistant', content: answer }]);
     } catch (error) {
       console.error(error);
+      const fallback = 'I could not connect to Groq. Please check your API key and try again.';
       setMessages((current) => [...current, {
         role: 'assistant',
-        content: 'I could not connect to Groq. Please check your API key and try again.'
+        content: fallback
       }]);
     } finally {
       setIsLoading(false);
@@ -186,13 +253,37 @@ function LandingChatbot({ initialRect }) {
           </button>
         </div>
       </header>
-      <section className={`landing-chatbot-messages ${messages.length === 0 ? 'empty' : ''}`}>
+      <section ref={messagesRef} className={`landing-chatbot-messages ${messages.length === 0 ? 'empty' : ''}`}>
         {messages.map((message, index) => (
           <div className={`landing-chat-message ${message.role}`} key={`${message.role}-${index}`}>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+            {message.role === 'assistant' ? (
+              <>
+                <div className="assistant-response-content">
+                  <TypewriterResponse content={message.content} />
+                </div>
+                <button
+                  className="response-speak-button"
+                  type="button"
+                  onClick={() => speakResponse(message.content)}
+                  aria-label="Speak this response"
+                  title="Speak response"
+                >
+                  <Volume2 size={15} />
+                </button>
+              </>
+            ) : (
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+            )}
           </div>
         ))}
-        {isLoading && <div className="landing-chat-message assistant">Thinking...</div>}
+        {isLoading && (
+          <div className="landing-chat-message assistant landing-thinking-message">
+            <span>Thinking</span>
+            <span className="thinking-loader" aria-label="Assistant is thinking">
+              <i /><i /><i />
+            </span>
+          </div>
+        )}
       </section>
       <form ref={inputRef} className="landing-chat-input chatbot-input-poda" onSubmit={handleSend} style={inputMotionStyle}>
         <div className="chatbot-input-glow" />
