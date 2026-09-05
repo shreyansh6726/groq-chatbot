@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 import { Cpu, Mic, MicOff } from 'lucide-react';
 import ShinyText from './ShinyText';
 import AnimatedList from './AnimatedList';
+import { getGroqChatModel } from './groqModel';
 import './App.css';
 
 const groq = new Groq({
@@ -112,8 +113,9 @@ function LandingChatbot({ initialRect }) {
     setIsLoading(true);
 
     try {
+      const model = await getGroqChatModel(groq);
       const completion = await groq.chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
+        model,
         messages: [
           { role: 'system', content: 'You are a professional, helpful AI assistant. Respond clearly using markdown.' },
           ...messages,

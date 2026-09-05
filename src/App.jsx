@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import './App.css';
 import LandingPage from './landingPage';
+import { getGroqChatModel } from './groqModel';
 
 const groq = new Groq({
   apiKey: process.env.REACT_APP_GROQ_API_KEY,
@@ -166,13 +167,14 @@ function App() {
     setIsLoading(true);
 
     try {
+      const model = await getGroqChatModel(groq);
       const chatCompletion = await groq.chat.completions.create({
         messages: [
           { role: "system", content: "You are a professional, formal, and highly capable AI assistant. Respond using clear markdown formatting. Use bolding for emphasis, headings for structure, and code blocks for any technical snippets. Maintain a polite and helpful tone." },
           ...messages,
           userMessage
         ],
-        model: "llama-3.3-70b-versatile",
+        model,
       });
 
       const botContent = cleanAssistantResponse(
