@@ -51,6 +51,7 @@ function LandingChatbot({ initialRect }) {
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null);
   const inputRef = useRef(null);
+  const messagesRef = useRef(null);
   const [isReady, setIsReady] = useState(!initialRect);
   const [inputMotionStyle, setInputMotionStyle] = useState({});
 
@@ -127,6 +128,21 @@ function LandingChatbot({ initialRect }) {
 
   const clearChat = () => setMessages([]);
 
+  const scrollMessagesToLatest = () => {
+    if (messagesRef.current) {
+      messagesRef.current.scrollTo({
+        top: messagesRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const waitForMessageRender = () => new Promise((resolve) => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(resolve);
+    });
+  });
+
   const handleSend = async (event) => {
     event.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -137,6 +153,8 @@ function LandingChatbot({ initialRect }) {
     setIsLoading(true);
 
     try {
+      await waitForMessageRender();
+      scrollMessagesToLatest();
       const model = await getGroqChatModel(groq);
       const completion = await groq.chat.completions.create({
         model,
@@ -212,7 +230,7 @@ function LandingChatbot({ initialRect }) {
           </button>
         </div>
       </header>
-      <section className={`landing-chatbot-messages ${messages.length === 0 ? 'empty' : ''}`}>
+      <section ref={messagesRef} className={`landing-chatbot-messages ${messages.length === 0 ? 'empty' : ''}`}>
         {messages.map((message, index) => (
           <div className={`landing-chat-message ${message.role}`} key={`${message.role}-${index}`}>
             {message.role === 'assistant' ? (
@@ -222,7 +240,14 @@ function LandingChatbot({ initialRect }) {
             )}
           </div>
         ))}
-        {isLoading && <div className="landing-chat-message assistant">Thinking...</div>}
+        {isLoading && (
+          <div className="landing-chat-message assistant landing-thinking-message">
+            <span>Thinking</span>
+            <span className="thinking-loader" aria-label="Assistant is thinking">
+              <i /><i /><i />
+            </span>
+          </div>
+        )}
       </section>
       <form ref={inputRef} className="landing-chat-input chatbot-input-poda" onSubmit={handleSend} style={inputMotionStyle}>
         <div className="chatbot-input-glow" />
