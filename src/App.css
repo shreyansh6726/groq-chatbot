@@ -270,7 +270,7 @@ body {
 }
 
 .chatbot-input-main input::placeholder { color: #0f172a; opacity: 1; }
-.chatbot-input-placeholder { position: absolute; left: 52px; top: 50%; z-index: 1; transform: translateY(-50%); pointer-events: none; font-size: 1rem; line-height: 1; }
+.chatbot-input-placeholder { position: absolute; left: 52px; top: 50%; z-index: 4; display: inline-block; transform: translateY(-50%); pointer-events: none; color: #4f46e5; font-size: 1rem; font-weight: 500; line-height: 1; white-space: nowrap; background-clip: text !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; }
 .chatbot-input-mask { position: absolute; left: 52px; top: 13px; z-index: 0; width: 100px; height: 20px; background: linear-gradient(90deg, transparent, #ffffff); pointer-events: none; }
 .chatbot-input-pink-mask { position: absolute; left: 5px; top: 10px; z-index: 0; width: 30px; height: 20px; background: #A570E3; filter: blur(20px); opacity: .8; pointer-events: none; transition: opacity 2s; }
 .chatbot-input-poda:hover .chatbot-input-pink-mask,
