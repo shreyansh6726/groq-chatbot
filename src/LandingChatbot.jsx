@@ -17,6 +17,30 @@ const cleanResponse = (value) => String(value || '')
   .replace(/<think>[\s\S]*?<\/think>/gi, '')
   .trim();
 
+function TypewriterResponse({ content }) {
+  const [visibleContent, setVisibleContent] = useState('');
+
+  useEffect(() => {
+    let characterIndex = 0;
+    setVisibleContent('');
+
+    const timer = window.setInterval(() => {
+      characterIndex += 1;
+      setVisibleContent(content.slice(0, characterIndex));
+
+      if (characterIndex >= content.length) window.clearInterval(timer);
+    }, 18);
+
+    return () => window.clearInterval(timer);
+  }, [content]);
+
+  return (
+    <div className="typewriter-response">
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{visibleContent}</ReactMarkdown>
+    </div>
+  );
+}
+
 function LandingChatbot({ initialRect }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -191,7 +215,11 @@ function LandingChatbot({ initialRect }) {
       <section className={`landing-chatbot-messages ${messages.length === 0 ? 'empty' : ''}`}>
         {messages.map((message, index) => (
           <div className={`landing-chat-message ${message.role}`} key={`${message.role}-${index}`}>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+            {message.role === 'assistant' ? (
+              <TypewriterResponse content={message.content} />
+            ) : (
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+            )}
           </div>
         ))}
         {isLoading && <div className="landing-chat-message assistant">Thinking...</div>}
